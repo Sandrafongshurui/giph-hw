@@ -1,34 +1,29 @@
-import {useState } from "react";
+import React from "react";
 
 const FavouriteList = (props) => {
-    const [favouriteList, setfavouriteList] = useState([ ]);
-    const [giphStr, setGiphStr] = useState("")
+  //let [favouriteList, setfavouriteList] = useState([ ]);
 
-//    if(props.selectedGiph !== "" ){
-//     console.log("add to list")
-//     // props.clickLike(!props.likeValue)
-//     setfavouriteList([props.selectedGiph, ...favouriteList])
-//     props.isUpdated (true)
-//    }
-    
-    // favouriteList.splice(props.selectedGiph)
-
-    // favouriteList.map((item) => 
-    // <div>item</div>
-    // )
-    console.log("first render",favouriteList)
-
-
-
-    return(
-        <div>
-             {favouriteList.map((item) => 
-                <div>item</div>
-                )}
-        </div>
+const handleClick = (evnt) => {
+    props.onClick(evnt.target.value)
+    const obj = evnt.target.value
+    console.log(obj)
    
-    )
-
 }
 
-export default FavouriteList
+  const list = props.list.map((item, idx) => (
+    <div key={idx}>
+        <p>{item.data.user.display_name}</p>
+        <button onClick={handleClick} value={item.data.images.fixed_height.url}>switch</button>
+      {/* <img src={item.giphUrl} alt="fav"></img> */}
+    </div>
+  ));
+
+  return (
+    <div>
+      <h1>Favourites</h1>
+      {list}
+    </div>
+  );
+};
+
+export default FavouriteList;

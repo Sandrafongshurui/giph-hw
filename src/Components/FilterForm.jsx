@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 
 const FilterForm = (props) => {
   //uncontrolled, it will return a .current of the ref element
@@ -30,7 +30,7 @@ const FilterForm = (props) => {
   return (
     <div>
       <form onSubmit={submitFilterForm}>
-        <input ref={filterInputVal} type="text" />
+        <input ref={filterInputVal} type="text" placeholder="type of giphy"/>
         <input type="submit" value="Submit" />
       </form>
       {/* <form onSubmit={submitFilterForm}>
