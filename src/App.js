@@ -1,6 +1,6 @@
 import FilterForm from "./Components/FilterForm";
 import Giph from "./Components/Giph";
-import FavouriteList from "./Components/FavouriteLIst";
+import FavouriteList from "./Components/FavouriteList";
 import "./App.css";
 import axios from 'axios';
 import { useEffect, useState } from "react";
@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 const App = () => {
   const [giphContent, setGiphContent] = useState(null);
   const [favouriteGiph, setFavouriteGiph] = useState("")
+  const [like, setLikeBtn] = useState(false)
 
   //value is from props.submit
   const filterformSubmit = (value) => {
@@ -18,7 +19,7 @@ const App = () => {
     );
   };
 
- 
+
   // const fetchData = (url) => {
   //   fetch(url)
   //     .then((response) => {
@@ -36,11 +37,18 @@ const App = () => {
     console.log(response.data)
   };
 
-  const addFavGiphToList = (value) => {
-    if(value){
-      setFavouriteGiph(giphContent.data[0].images.fixed_height.url)
+  const addToFavList = (value) => {
+    console.log(value)
+    if(value.like){
+      console.log("set fav giph")
+      setFavouriteGiph(giphContent.data.images.fixed_height.url)
+      setLikeBtn(value.like)
+      //get new gif
+      return
     }
+    setLikeBtn(!value.like)
   }
+
 
 
 
@@ -48,9 +56,17 @@ const App = () => {
   useEffect(() => {
     console.log("1st round use effect to get data, get my random gif");
     fetchData(
-      "https://api.giphy.com/v1/gifs/trending?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g"
+      "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g"
     );
-  }, []);
+  }, [favouriteGiph]);
+
+
+  // useEffect(() => {
+  //   if(like){
+      
+  //   }
+
+  // }, [like]);
 
   return (
     <div className="App">
@@ -62,13 +78,13 @@ const App = () => {
       <br/>
       <div>
         {giphContent && (//if is true, execute the giph component
-          <Giph srcUrl={giphContent.data[0].images.fixed_height.url} addToFavList={addFavGiphToList} />
+          <Giph srcUrl={giphContent.data.images.fixed_height.url} addToFavList={addToFavList} />
         )}
       </div>
       <br/>
       <br/>
       <div>
-        <FavouriteList addFavGiph={favouriteGiph}/>
+        <FavouriteList selectedGiph={like? favouriteGiph : ""} isUpdated={(value) => setLikeBtn(value)}/> 
       </div>
     </div>
   );

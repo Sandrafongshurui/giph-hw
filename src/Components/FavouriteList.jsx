@@ -1,13 +1,32 @@
 import {useState } from "react";
 
 const FavouriteList = (props) => {
-    const [favourite, setfavourite] = useState([]);
+    const [favouriteList, setfavouriteList] = useState([ ]);
+    const [giphStr, setGiphStr] = useState("")
 
-    const favouriteList = favouriteList.push(favourite)
+//    if(props.selectedGiph !== "" ){
+//     console.log("add to list")
+//     // props.clickLike(!props.likeValue)
+//     setfavouriteList([props.selectedGiph, ...favouriteList])
+//     props.isUpdated (true)
+//    }
+    
+    // favouriteList.splice(props.selectedGiph)
+
+    // favouriteList.map((item) => 
+    // <div>item</div>
+    // )
+    console.log("first render",favouriteList)
+
 
 
     return(
-    {favouriteList}
+        <div>
+             {favouriteList.map((item) => 
+                <div>item</div>
+                )}
+        </div>
+   
     )
 
 }
