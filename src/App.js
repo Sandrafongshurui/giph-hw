@@ -7,9 +7,10 @@ import { useEffect, useState } from "react";
 
 const App = () => {
   const [giphUrl, setGiphUrl] = useState(null);
-  const [giphObj, setGiphObj] = useState(null);
+  const [giphObj, setGiphObj] = useState({giphObj:{}, display:false});
   const [favouriteGiph, setFavouriteGiph] = useState("")
-  // const [favouriteList, setFavouriteList] = useState([])
+  const [favouriteList, setFavouriteList] = useState([])
+  const [likeStatus, setLikeStatus] = useState(false)
 
   //value is from props.submit
   const filterformSubmit = (value) => {
@@ -23,7 +24,7 @@ const App = () => {
   //use axios, response is change to json already
   const fetchData = async(url, isfilter) => {
     const response = await axios.get(url)
-    setGiphObj(response.data)
+    setGiphObj({giphObj:response.data, display:true})
         
     console.log(response.data)
     if(isfilter){
@@ -39,15 +40,31 @@ const App = () => {
   
       console.log("set fav giph")
       setFavouriteGiph(giphUrl)
-      // setFavouriteList([giphObj, ...favouriteList])
-      // setLikeBtn(true)
+      setFavouriteList([giphObj, ...favouriteList])
+      //setLikeBtn(true)
       return
     
   }
 
+const onClick = (value) => {
+  setGiphUrl(value)//this will be the url
+  const list = [...favouriteList]
+  list.forEach(item =>{
+    item.display = true
+    if(value === item.giphObj.data.images.fixed_height.url){
+      item.display =  !item.display
+      // setLikeStatus(true)
+    }
+    //set current like status to true, its going to show a favourite
+   
+})
+  setFavouriteList([...list])
+}
 
-
-
+// const currentLikeStatus = (value) => {
+//   setLikeStatus(value)
+//   //return value
+// }
   //get the Giph on mounted
   useEffect(() => {
     console.log("Get a random gif");
@@ -57,9 +74,6 @@ const App = () => {
   }, [favouriteGiph]);
 
 
-  // useEffect(() => {
-  //   setLikeBtn(false)
-  // }, [favouriteList]);
 
   return (
     <div className="App">
@@ -77,7 +91,7 @@ const App = () => {
       <br/>
       <br/>
       <div>
-        {/* {<FavouriteList list={favouriteList} onClick={(value) => setGiphUrl(value)}/>} */}
+        {<FavouriteList list={favouriteList} onClick={onClick}/>}
       </div>
     </div>
   );

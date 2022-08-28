@@ -1,19 +1,20 @@
-import React from "react";
+import React, {useState} from "react";
 
 const FavouriteList = (props) => {
-  //let [favouriteList, setfavouriteList] = useState([ ]);
+  let [display, setDisplay] = useState(false);
 
 const handleClick = (evnt) => {
     props.onClick(evnt.target.value)
-    const obj = evnt.target.value
-    console.log(obj)
-   
+    // const obj = evnt.target.value
+    //set favlist again
+    setDisplay(!display)
+    // console.log(evnt.target.getAttributes(""))   
 }
 
   const list = props.list.map((item, idx) => (
     <div key={idx}>
-        <p>{item.data.user.display_name}</p>
-        <button onClick={handleClick} value={item.data.images.fixed_height.url}>switch</button>
+        <p>{item.giphObj.data.user.display_name}</p>
+        <button onClick={handleClick} value={item.giphObj.data.images.fixed_height.url}>{item.display? "show":"hide"}</button>
       {/* <img src={item.giphUrl} alt="fav"></img> */}
     </div>
   ));

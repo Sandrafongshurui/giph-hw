@@ -1,10 +1,19 @@
-import React, { useState} from "react";
+import React, {useState, useEffect} from "react";
 import "./Giph.css";
 
 const Giph = (props) => {
-  const [isFavourite, setIsFavourite] = useState({ giphUrl: "", like: null });
-  // setIsFavourite(props.likeBtn)
-  // let previousGiph = useRef()
+  const [isFavourite, setIsFavourite] = useState({giphObj:{}, display:false});
+  const[likeStatus, setLikeStatus] = useState(null)
+
+  //if its fav and is not a new gif
+  console.log("---->", props.giphObj)
+  console.log(isFavourite.display)
+  if(props.giphObj.display && isFavourite.display !== undefined){
+    console.log("---->", props.giphObj.display)
+    setIsFavourite(props.giphObj.display)
+    // props.newLikeStatus(false)
+  }
+ 
 
   // previousGiph = props.srcUrl
 
@@ -14,11 +23,16 @@ const Giph = (props) => {
   //     setIsFavourite(false)
   // }
 
-  const handleClick = () => {
-    console.log(props.giphObj);
-    setIsFavourite({ giphUrl: props.srcUrl, like: true });
+  const handleClick = (value) => {
+    console.log("hi");
+    setIsFavourite(!props.giphObj);
+    //setGiph({giphObj:props.giphObj, like:true})
     props.onLike(props.giphObj);
   };
+  ///if fav gif is set, means a new gif is called, means the unlike shld be like
+  // useEffect(() => {
+  //   setIsFavourite({ giphUrl: "", like: false })
+  // }, [isFavourite]);
 
   return (
     <div className="giph-content">
@@ -26,9 +40,10 @@ const Giph = (props) => {
         <img src={props.srcUrl} alt="random-giphy" />
       </div>
       <div>
-        {/* <button onClick={handleClick} value={isFavourite.like}>
-          {isFavourite.like ? "unlike" : "like"}
-        </button> */}
+        <button onClick={handleClick} value={isFavourite.display}>
+          {isFavourite.display? "unlike" : "like"}
+          
+        </button>
       </div>
     </div>
   );
