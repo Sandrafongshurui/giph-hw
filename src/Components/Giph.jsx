@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Giph.css";
 
 const Giph = (props) => {
-  const [isFavourite, setIsFavourite] = useState(false);
+  const [isloaded, setIsLoaded] = useState(false)
 
   const handleClick = (value) => {
     console.log("hi");
@@ -25,7 +25,9 @@ const Giph = (props) => {
   return (
     <div className="giph-content">
       <div>
-        <img src={props.srcUrl} alt="random-giphy" />
+        {isloaded? null :<p>Loading...</p> }
+        <img  style={isloaded? {} : { display: 'none' }} src={props.srcUrl} alt="random-giphy" onLoad={()=>setIsLoaded(true)} />
+        
       </div>
       <div>{likeStatus()}</div>
     </div>

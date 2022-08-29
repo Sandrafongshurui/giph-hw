@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 
 const FavouriteList = (props) => {
-  let [display, setDisplay] = useState(false);
 
   const showHandleClick = (evnt) => {
     if (JSON.parse(evnt.target.getAttribute("displayStatus"))) {

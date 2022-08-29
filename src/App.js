@@ -6,11 +6,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 
 const App = () => {
-  //const [giphUrl, setGiphUrl] = useState({giphUrl:"", display:false});
   const [giphObj, setGiphObj] = useState({ giphUrl: "", display: false });
   const [favouriteGiph, setFavouriteGiph] = useState({});
   const [favouriteList, setFavouriteList] = useState([]);
   const [likeBtn, setLikeBtn] = useState(true);
+
+  const url =
+    "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g";
 
   //value is from props.submit
   const filterformSubmit = (value) => {
@@ -27,13 +29,11 @@ const App = () => {
     const response = await axios.get(url);
     console.log(response.data);
     if (isfilter) {
-      //setGiphUrl(response.data.data[0].images.fixed_height.url)
       setGiphObj({
         giphUrl: response.data.data[0].images.fixed_height.url,
         display: true,
       });
     } else {
-      //setGiphUrl(response.data.data.images.fixed_height.url)
       setGiphObj({
         giphUrl: response.data.data.images.fixed_height.url,
         display: true,
@@ -49,61 +49,45 @@ const App = () => {
 
   const removeFromFavList = (giphUrl) => {
     const list = [...favouriteList];
-    let removeIndx = null
+    let removeIndx = null;
     list.forEach((item, idx) => {
       if (giphUrl === item.giphUrl) {
-        removeIndx =  idx
+        removeIndx = idx;
       }
     });
-    list.splice(removeIndx,1)
+    list.splice(removeIndx, 1);
     console.log(list);
     setFavouriteList([...list]);
-    if(giphUrl === giphObj.url){
-      fetchData(
-        "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g",
-        false
-      );
+    if (giphUrl === giphObj.url) {
+      fetchData(url, false);
     }
-
   };
 
   const clickShowHideBtn = (value) => {
     const isShowing = favouriteList.find((item) => item.giphUrl === value); //clickng the hide btn, value is the current url
     //means clicking hide button
     if (!isShowing.display) {
-      fetchData(
-        "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g",
-        false
-      );
+      fetchData(url, false);
       const list = [...favouriteList];
-      list.forEach((item) => {
-        item.display = true;
-      });
-      setFavouriteList([...list]);
+      setFavouriteList([...list.map((item) => {return item.display === true;})]);
     } else {
       setGiphObj({ giphUrl: value, display: !likeBtn }); //value will be the url
-      console.log(!likeBtn);
       const list = [...favouriteList];
-      list.forEach((item) => {
-        item.display = true;
-        //hide button is avail
-        if (value === item.giphUrl && isShowing.display) {
-          item.display = !likeBtn;
-          // setLikeStatus(true)
-        }
+
         //set current like status to true, its going to show a favourite
-        setFavouriteList([...list]);
-      });
+        setFavouriteList([...list.forMap((item) => {
+          item.display = true;
+          //hide button is avail
+          if (value === item.giphUrl && isShowing.display) {
+            item.display = !likeBtn;
+          }})])
     }
   };
 
   //get the Giph on mounted
   useEffect(() => {
     console.log("Get a random gif");
-    fetchData(
-      "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g",
-      false
-    );
+    fetchData(url, false);
   }, [favouriteGiph]);
 
   return (
