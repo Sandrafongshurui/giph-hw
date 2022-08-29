@@ -1,23 +1,28 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 
 const FavouriteList = (props) => {
-  let [display, setDisplay] = useState(false);
+ // let [display, setDisplay] = useState(false);
 
-const handleClick = (evnt) => {
-    props.onClick(evnt.target.value)
+  const handleClick = (evnt) => {
+    props.onClick(evnt.target.value);
+    console.log(!evnt.target.getAttribute("status"))
+    props.setShowLikeBtn(!evnt.target.getAttribute("status"))
     // const obj = evnt.target.value
-    //set favlist again
-    setDisplay(!display)
-    // console.log(evnt.target.getAttributes(""))   
-}
+   // props.giphObj({giphObj:evnt.target.value, display:evnt.target.getAttribute("status")})
+    //setDisplay(!display);
+    // console.log(evnt.target.getAttributes(""))
+  };
 
-  const list = props.list.map((item, idx) => (
-    <div key={idx}>
-        <p>{item.giphObj.data.user.display_name}</p>
-        <button onClick={handleClick} value={item.giphObj.data.images.fixed_height.url}>{item.display? "show":"hide"}</button>
+  const list = props.list.map((item, idx) => {
+    console.log(item)
+    return (<div key={idx}>   
+      <p>{item.giphUrl}</p>
+      <button onClick={handleClick} value={item.giphUrl} status={item.display.toString()}>
+        {item.display ? "show" : "hide"}
+      </button>
       {/* <img src={item.giphUrl} alt="fav"></img> */}
-    </div>
-  ));
+    </div>)
+});
 
   return (
     <div>

@@ -6,11 +6,11 @@ import axios from 'axios';
 import { useEffect, useState } from "react";
 
 const App = () => {
-  const [giphUrl, setGiphUrl] = useState(null);
-  const [giphObj, setGiphObj] = useState({giphObj:{}, display:false});
-  const [favouriteGiph, setFavouriteGiph] = useState("")
+  //const [giphUrl, setGiphUrl] = useState({giphUrl:"", display:false});
+  const [giphObj, setGiphObj] = useState({giphUrl:"", display:false});
+  const [favouriteGiph, setFavouriteGiph] = useState({})
   const [favouriteList, setFavouriteList] = useState([])
-  const [likeStatus, setLikeStatus] = useState(false)
+  const [showLikeBtn, setShowLikeBtn] = useState(true)
 
   //value is from props.submit
   const filterformSubmit = (value) => {
@@ -24,14 +24,15 @@ const App = () => {
   //use axios, response is change to json already
   const fetchData = async(url, isfilter) => {
     const response = await axios.get(url)
-    setGiphObj({giphObj:response.data, display:true})
+   
         
     console.log(response.data)
     if(isfilter){
-      setGiphUrl(response.data.data[0].images.fixed_height.url)
+      //setGiphUrl(response.data.data[0].images.fixed_height.url)
+      setGiphObj({giphUrl:response.data.data[0].images.fixed_height.url, display:true})
     }else{
-     setGiphUrl(response.data.data.images.fixed_height.url)
-
+     //setGiphUrl(response.data.data.images.fixed_height.url)
+     setGiphObj({giphUrl:response.data.data.images.fixed_height.url, display:true})
     }
   };
 
@@ -39,7 +40,7 @@ const App = () => {
     console.log(giphObj)
   
       console.log("set fav giph")
-      setFavouriteGiph(giphUrl)
+      setFavouriteGiph(giphObj)
       setFavouriteList([giphObj, ...favouriteList])
       //setLikeBtn(true)
       return
@@ -47,11 +48,11 @@ const App = () => {
   }
 
 const onClick = (value) => {
-  setGiphUrl(value)//this will be the url
+  setGiphObj({giphUrl:value, display:true})//value will be the url
   const list = [...favouriteList]
   list.forEach(item =>{
     item.display = true
-    if(value === item.giphObj.data.images.fixed_height.url){
+    if(value === item.giphUrl){
       item.display =  !item.display
       // setLikeStatus(true)
     }
@@ -84,14 +85,14 @@ const onClick = (value) => {
       <br/>
       <br/>
       <div>
-        {giphUrl && (//if is true, execute the giph component
-          <Giph srcUrl={giphUrl} giphObj={giphObj} onLike={addToFavList} />
+        {giphObj.giphUrl && (//if is true, execute the giph component
+          <Giph srcUrl={giphObj.giphUrl} giphObj={giphObj} onLike={addToFavList} showLikeBtn={showLikeBtn}/>
         )}
       </div>
       <br/>
       <br/>
       <div>
-        {<FavouriteList list={favouriteList} onClick={onClick}/>}
+        {<FavouriteList list={favouriteList} onClick={onClick} setShowLikeBtn={(value) => {setShowLikeBtn(value)}}/>}
       </div>
     </div>
   );

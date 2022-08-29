@@ -1,19 +1,18 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import "./Giph.css";
 
 const Giph = (props) => {
-  const [isFavourite, setIsFavourite] = useState({giphObj:{}, display:false});
-  const[likeStatus, setLikeStatus] = useState(null)
+  const [isFavourite, setIsFavourite] = useState(false);
+  // const[likeStatus, setLikeStatus] = useState(null)
 
-  //if its fav and is not a new gif
-  console.log("---->", props.giphObj)
-  console.log(isFavourite.display)
-  if(props.giphObj.display && isFavourite.display !== undefined){
-    console.log("---->", props.giphObj.display)
-    setIsFavourite(props.giphObj.display)
-    // props.newLikeStatus(false)
-  }
- 
+  // //if its fav and is not a new gif
+  // console.log("---->", props.giphObj)
+  // console.log(isFavourite.display)
+  // if(props.giphObj.display && isFavourite.display !== undefined){
+  //   console.log("---->", props.giphObj.display)
+  //   setIsFavourite(props.giphObj.display)
+  //   // props.newLikeStatus(false)
+  // }
 
   // previousGiph = props.srcUrl
 
@@ -25,26 +24,40 @@ const Giph = (props) => {
 
   const handleClick = (value) => {
     console.log("hi");
-    setIsFavourite(!props.giphObj);
-    //setGiph({giphObj:props.giphObj, like:true})
-    props.onLike(props.giphObj);
+    // setIsFavourite(!value);
+
+    props.onLike({ giphUrl: props.srcUrl, display: value });
   };
-  ///if fav gif is set, means a new gif is called, means the unlike shld be like
-  // useEffect(() => {
-  //   setIsFavourite({ giphUrl: "", like: false })
-  // }, [isFavourite]);
+
+
+  const likeStatus = () => {
+    if (props.showLikeBtn) {
+      console.log("show like btn");
+      return (
+        <div>
+          <button onClick={handleClick} value={props.showLikeBtn}>
+            like
+          </button>
+        </div>
+      );
+    } else {
+      console.log("show unlike btn");
+      return (
+        <div>
+          <button onClick={handleClick} value={props.giphObj.display}>
+            {props.giphObj.display ? "unlike" : "like"}
+          </button>
+        </div>
+      );
+    }
+  };
 
   return (
     <div className="giph-content">
       <div>
         <img src={props.srcUrl} alt="random-giphy" />
       </div>
-      <div>
-        <button onClick={handleClick} value={isFavourite.display}>
-          {isFavourite.display? "unlike" : "like"}
-          
-        </button>
-      </div>
+      <div>{likeStatus()}</div>
     </div>
   );
 };
