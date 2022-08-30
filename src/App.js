@@ -48,40 +48,59 @@ const App = () => {
   };
 
   const removeFromFavList = (giphUrl) => {
+    //checkif its currently showing
+    if (giphUrl === giphObj.giphUrl) {
+      console.log("current showings")
+      fetchData(url, false);
+    }
     const list = [...favouriteList];
-    let removeIndx = null;
-    list.forEach((item, idx) => {
-      if (giphUrl === item.giphUrl) {
-        removeIndx = idx;
-      }
-    });
+    // list.indexOf((item, idx) => {
+    //   if (giphUrl === item.giphUrl) {
+    //     removeIndx = idx;
+    //     return item
+    //   }
+    // });
+    let removeIndx = list.findIndex((item) => {
+      return item.giphUrl === giphUrl
+    })
     list.splice(removeIndx, 1);
     console.log(list);
     setFavouriteList([...list]);
-    if (giphUrl === giphObj.url) {
-      fetchData(url, false);
-    }
+    // console.log(giphUrl )
+    // console.log(giphObj.url )
+
   };
 
   const clickShowHideBtn = (value) => {
-    const isShowing = favouriteList.find((item) => item.giphUrl === value); //clickng the hide btn, value is the current url
-    //means clicking hide button
-    if (!isShowing.display) {
-      fetchData(url, false);
-      const list = [...favouriteList];
-      setFavouriteList([...list.map((item) => {return item.display === true;})]);
-    } else {
-      setGiphObj({ giphUrl: value, display: !likeBtn }); //value will be the url
-      const list = [...favouriteList];
-
+    let list = [...favouriteList];
+    let idx = null
+    //find giph that is being currently clicked
+    const itemUserClick = list.filter((item, idnx) => {
+       //must be both show btn and is the clicked item
+      if (item.giphUrl === value && item.display) {
+        idx = idnx
+        console.log("item clicked has show btn")
+        return item
+      };
+      
+    });
+    list.forEach((item) => item.display = true)
+    if (itemUserClick.length>0) {
+        //value will be the url
+        setGiphObj({ giphUrl: value, display: !likeBtn });
         //set current like status to true, its going to show a favourite
-        setFavouriteList([...list.forMap((item) => {
-          item.display = true;
-          //hide button is avail
-          if (value === item.giphUrl && isShowing.display) {
-            item.display = !likeBtn;
-          }})])
+        console.log("selected item ---->", list[idx])
+        list[idx].display = !likeBtn
+    
+    } else { 
+      //means clicking hide button 
+      // get a new gif
+      console.log("item clicked has hide btn, get a new gif")
+      fetchData(url, false);
+
     }
+    setFavouriteList([...list])
+    console.log(list)
   };
 
   //get the Giph on mounted

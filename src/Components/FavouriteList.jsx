@@ -1,25 +1,21 @@
 import React, { useState } from "react";
 
 const FavouriteList = (props) => {
-
+  console.log(props.list)
   const showHandleClick = (evnt) => {
-    if (JSON.parse(evnt.target.getAttribute("displayStatus"))) {
-      props.onClick(evnt.target.value);
-      console.log(evnt.target.value);
-      props.setLikeBtn(JSON.parse(evnt.target.getAttribute("displayStatus")));
-    } else {
-      props.onClick(evnt.target.value);
-
-      props.setLikeBtn(!JSON.parse(evnt.target.getAttribute("displayStatus")));
-    }
+    props.onClick(evnt.target.value);
+    let displayStatus = JSON.parse(evnt.target.getAttribute("displayStatus"))
+    props.setLikeBtn(displayStatus);
   };
 
-  const likeHandleClick = (value) => {
+  const unlikeHandleClick = (evnt) => {
     //remove from favourite list
-    props.removeGiph(value);
+    console.log(evnt.target.value)
+    props.removeGiph(evnt.target.value);
   };
 
   const list = props.list.map((item, idx) => {
+    console.log(item)
     return (
       <div key={idx}>
         <p>{item.giphUrl}</p>
@@ -30,7 +26,7 @@ const FavouriteList = (props) => {
         >
           {item.display ? "show" : "hide"}
         </button>
-        <button onClick={likeHandleClick} value={item.giphUrl}>
+        <button onClick={unlikeHandleClick} value={item.giphUrl}>
           unlike
         </button>
       </div>
