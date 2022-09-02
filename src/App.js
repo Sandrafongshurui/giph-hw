@@ -64,10 +64,6 @@ const App = () => {
     list.splice(removeIndx, 1);
     console.log(list);
     setFavouriteList([...list]);
-<<<<<<< HEAD
-=======
-
->>>>>>> 68cc1ff9c5c30f6f75eacc184ce991c5fbbb5b97
   };
 
   const clickShowHideBtn = (value) => {
