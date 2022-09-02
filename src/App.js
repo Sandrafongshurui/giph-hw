@@ -71,19 +71,18 @@ const App = () => {
     let idx = null
     let itemUserClick = []
     //find giph that is being currently clicked
-    itemUserClick = list.filter((item, idnx) => {
+    list.forEach((item, idnx) => {
        //must be both show btn and is the clicked item
        
       if (item.giphUrl === value && item.display) {
-        console.log(item.giphUrl, item.display )
         idx = idnx
         console.log("item clicked has show btn")
-        return item
-      };
+        itemUserClick.push(item)
+      }
 
     });
     list.forEach((item) => item.display = true)
-    if (itemUserClick.length>0) {
+    if (itemUserClick.length > 0) {
         //value will be the url
         setGiphObj({ giphUrl: value, display: !list[idx].display });
         //set current like status to true, its going to show a favourite
