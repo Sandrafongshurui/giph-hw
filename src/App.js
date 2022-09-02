@@ -41,6 +41,10 @@ const App = () => {
     }
   };
 
+  const onToggleBtn = (isBtnLike, giphObj) => {
+    isBtnLike?  addToFavList(giphObj) : removeFromFavList(giphObj.giphUrl)
+  }
+
   const addToFavList = (giphObj) => {
     console.log("set fav giph");
     setFavouriteGiph(giphObj);
@@ -122,7 +126,7 @@ const App = () => {
           <Giph
             srcUrl={giphObj.giphUrl}
             giphObj={giphObj}
-            onLike={addToFavList}
+            onToggleBtn={onToggleBtn}
             showLikeBtn={likeBtn}
           />
         )}

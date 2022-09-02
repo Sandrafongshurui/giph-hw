@@ -5,10 +5,10 @@ const Giph = (props) => {
   const [isloaded, setIsLoaded] = useState(false)
 
   const handleClick = (value) => {
-    console.log("hi");
+    console.log("click unlike from main giph ");
     // setIsFavourite(!value);
 
-    props.onLike({ giphUrl: props.srcUrl, display: props.giphObj.display});
+    props.onToggleBtn(props.giphObj.display,{ giphUrl: props.srcUrl, display: props.giphObj.display});
   };
 
 
