@@ -77,7 +77,7 @@ const App = () => {
         console.log("item clicked has show btn")
         return item
       };
-      
+      return null
     });
     list.forEach((item) => item.display = true)
     if (itemUserClick.length>0) {
