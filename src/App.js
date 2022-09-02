@@ -9,7 +9,7 @@ const App = () => {
   const [giphObj, setGiphObj] = useState({ giphUrl: "", display: false });
   const [favouriteGiph, setFavouriteGiph] = useState({});
   const [favouriteList, setFavouriteList] = useState([]);
-  const [likeBtn, setLikeBtn] = useState(true);
+  // const [likeBtn, setLikeBtn] = useState(true);
 
   const url =
     "https://api.giphy.com/v1/gifs/random?api_key=HSBGTXO0GH0UY3hV8Ar1PT2hi82FZRfA&limit=1&rating=g";
@@ -41,8 +41,8 @@ const App = () => {
     }
   };
 
-  const onToggleBtn = (isBtnLike, giphObj) => {
-    isBtnLike?  addToFavList(giphObj) : removeFromFavList(giphObj.giphUrl)
+  const onToggleBtn = (giphObj) => {
+    giphObj.display?  addToFavList(giphObj) : removeFromFavList(giphObj.giphUrl)
   }
 
   const addToFavList = (giphObj) => {
@@ -69,31 +69,37 @@ const App = () => {
   const clickShowHideBtn = (value) => {
     let list = [...favouriteList];
     let idx = null
+    let itemUserClick = []
     //find giph that is being currently clicked
-    const itemUserClick = list.filter((item, idnx) => {
+    itemUserClick = list.filter((item, idnx) => {
        //must be both show btn and is the clicked item
+       
       if (item.giphUrl === value && item.display) {
+        console.log(item.giphUrl, item.display )
         idx = idnx
         console.log("item clicked has show btn")
         return item
       };
-      return null
+
     });
     list.forEach((item) => item.display = true)
     if (itemUserClick.length>0) {
         //value will be the url
-        setGiphObj({ giphUrl: value, display: !likeBtn });
+        setGiphObj({ giphUrl: value, display: !list[idx].display });
         //set current like status to true, its going to show a favourite
         console.log("selected item ---->", list[idx])
-        list[idx].display = !likeBtn
+        list[idx].display = !list[idx].display// change "show" to hide
+        //setLikeBtn(!list[idx].display)
     
     } else { 
       //means clicking hide button 
       // get a new gif
+      //setLikeBtn(!likeBtn )
       console.log("item clicked has hide btn, get a new gif")
       fetchData(url, false);
 
     }
+   
     setFavouriteList([...list])
     console.log(list)
   };
@@ -118,7 +124,7 @@ const App = () => {
             srcUrl={giphObj.giphUrl}
             giphObj={giphObj}
             onToggleBtn={onToggleBtn}
-            showLikeBtn={likeBtn}
+            
           />
         )}
       </div>
@@ -129,7 +135,7 @@ const App = () => {
           <FavouriteList
             list={favouriteList}
             onClick={clickShowHideBtn}
-            setLikeBtn={(value) => setLikeBtn(value)}
+            
             removeGiph={removeFromFavList}
           />
         }

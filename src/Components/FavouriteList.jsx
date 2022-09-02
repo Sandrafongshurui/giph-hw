@@ -1,11 +1,11 @@
 import React from "react";
 
 const FavouriteList = (props) => {
-  console.log(props.list)
+  //console.log(props.list)
   const showHandleClick = (evnt) => {
     props.onClick(evnt.target.value);
-    let displayStatus = JSON.parse(evnt.target.getAttribute("displayStatus"))
-    props.setLikeBtn(displayStatus);
+    //let displayStatus = JSON.parse(evnt.target.getAttribute("displayStatus"))
+    //props.setLikeBtn(displayStatus);
   };
 
   const unlikeHandleClick = (evnt) => {
@@ -15,14 +15,14 @@ const FavouriteList = (props) => {
   };
 
   const list = props.list.map((item, idx) => {
-    console.log(item)
+    //console.log(item)
     return (
       <div key={idx}>
         <p>{item.giphUrl}</p>
         <button
           onClick={showHandleClick}
           value={item.giphUrl}
-          displaystatus={item.display.toString()}
+          // displaystatus={item.display.toString()}
         >
           {item.display ? "show" : "hide"}
         </button>

@@ -6,9 +6,7 @@ const Giph = (props) => {
 
   const handleClick = (value) => {
     console.log("click unlike from main giph ");
-    // setIsFavourite(!value);
-
-    props.onToggleBtn(props.giphObj.display,{ giphUrl: props.srcUrl, display: props.giphObj.display});
+    props.onToggleBtn({ giphUrl: props.srcUrl, display: props.giphObj.display});
   };
 
 
