@@ -58,20 +58,12 @@ const App = () => {
       fetchData(url, false);
     }
     const list = [...favouriteList];
-    // list.indexOf((item, idx) => {
-    //   if (giphUrl === item.giphUrl) {
-    //     removeIndx = idx;
-    //     return item
-    //   }
-    // });
     let removeIndx = list.findIndex((item) => {
       return item.giphUrl === giphUrl
     })
     list.splice(removeIndx, 1);
     console.log(list);
     setFavouriteList([...list]);
-    // console.log(giphUrl )
-    // console.log(giphObj.url )
 
   };
 
